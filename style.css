@@ -36,7 +36,7 @@ main {
 }
 
 main input {
-    width: 80%;
+    width: 100%;
     border: none;
     padding: .5rem 1.5rem;
     background-color: #EBEBEB;
@@ -80,7 +80,7 @@ main .movies {
     font-weight: lighter;
     color: #00E8E4;
     font-family: 'Abel', sans-serif;
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-decoration: none;
     align-self: flex-end;
     margin-left: 6rem;

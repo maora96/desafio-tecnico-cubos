@@ -4,14 +4,18 @@ const input = document.querySelector("input");
 const button = document.querySelector("button");
 const lis = document.querySelectorAll("li");
 const ul = document.querySelector("ul");
+const form = document.querySelector("form");
 
 // pegar valor do input 
 let request;
-button.addEventListener("click", () => {
+
+
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
     request = input.value;
+    
     handleSearch();
 })
-
 
 
 // pegar lista de gêneros 
@@ -74,7 +78,6 @@ function handleSearch() {
 
 // pegar filmes por ano 
 function fetchYear(year) {
-    console.log(year)
     let pages = 500;
     let movies = [];
     for (let i = 1; i < pages; i++) {
@@ -142,7 +145,6 @@ function fetchGenre(genre) {
 
 // construir a página 
 function buildPage(array) {
-    console.log(array);
     wrapper.innerHTML = "";
     ul.innerHTML = "";
     setTimeout(() => {
@@ -154,7 +156,6 @@ function buildPage(array) {
         let page4 = [];
         let page5 = [];
         let length = array.length;
-        console.log(length);
         if (length / 5 <= 1) {
             array.forEach(item => {
                 page1.push(item);
@@ -170,7 +171,6 @@ function buildPage(array) {
                 li3.classList.remove("active");
                 li4.classList.remove("active");
                 li5.classList.remove("active");
-                console.log("próxima página:", page)
                 changePage(page1);
                 })
 
@@ -202,7 +202,7 @@ function buildPage(array) {
 
             li.addEventListener("click", () => {
                 let page = parseInt(li.innerText);
-                console.log("próxima página:", page);
+
                 li.classList.add("active");
                 li2.classList.remove("active");
                 li3.classList.remove("active");
@@ -212,7 +212,6 @@ function buildPage(array) {
             })
             li2.addEventListener("click", () => {
                 let page = parseInt(li.innerText);
-                console.log("próxima página:", page);
                 changePage(page2, page);
                 li.classList.remove("active");
                 li2.classList.add("active");
@@ -249,7 +248,6 @@ function buildPage(array) {
                 li3.classList.remove("active");
                 li4.classList.remove("active");
                 li5.classList.remove("active");
-                console.log("próxima página:", page);
                 changePage(page1, page);
             })
             li2.addEventListener("click", () => {
@@ -259,12 +257,10 @@ function buildPage(array) {
                 li3.classList.remove("active");
                 li4.classList.remove("active");
                 li5.classList.remove("active");
-                console.log("próxima página:", page);
                 changePage(page2, page);
             })
             li3.addEventListener("click", () => {
                 let page = parseInt(li.innerText);
-                console.log("próxima página:", page);
                 li.classList.remove("active");
                 li2.classList.remove("active");
                 li3.classList.add("active");
@@ -311,12 +307,10 @@ function buildPage(array) {
                 li3.classList.remove("active");
                 li4.classList.remove("active");
                 li5.classList.remove("active");
-                console.log("próxima página:", page);
                 changePage(page1, page);
             })
             li2.addEventListener("click", () => {
                 let page = parseInt(li.innerText);
-                console.log("próxima página:", page);
                 li.classList.remove("active");
                 li2.classList.add("active");
                 li3.classList.remove("active");
@@ -326,7 +320,6 @@ function buildPage(array) {
             })
             li3.addEventListener("click", () => {
                 let page = parseInt(li.innerText);
-                console.log("próxima página:", page);
                 changePage(page3, page);
                 li.classList.remove("active");
                 li2.classList.remove("active");
@@ -337,7 +330,6 @@ function buildPage(array) {
             
             li4.addEventListener("click", () => {
                 let page = parseInt(li.innerText);
-                console.log("próxima página:", page);
                 changePage(page4, page);
                 li.classList.remove("active");
                 li2.classList.remove("active");
@@ -379,7 +371,6 @@ function buildPage(array) {
 
             li.addEventListener("click", () => {
                 let page = parseInt(li.innerText);
-                console.log("próxima página:", page);
                 li.classList.add("active");
                 li2.classList.remove("active");
                 li3.classList.remove("active");
@@ -389,7 +380,6 @@ function buildPage(array) {
             })
             li2.addEventListener("click", () => {
                 let page = parseInt(li.innerText);
-                console.log("próxima página:", page);
                 li.classList.remove("active");
                 li2.classList.add("active");
                 li3.classList.remove("active");
@@ -404,13 +394,11 @@ function buildPage(array) {
                 li3.classList.add("active");
                 li4.classList.remove("active");
                 li5.classList.remove("active");
-                console.log("próxima página:", page);
                 changePage(page3, page);
             })
             
             li4.addEventListener("click", () => {
                 let page = parseInt(li.innerText);
-                console.log("próxima página:", page);
                 changePage(page4, page);
                 li.classList.remove("active");
                 li2.classList.remove("active");
@@ -426,7 +414,6 @@ function buildPage(array) {
                 li3.classList.remove("active");
                 li4.classList.remove("active");
                 li5.classList.add("active");
-                console.log("próxima página:", page);
                 changePage(page5, page);
             })
 
@@ -435,7 +422,7 @@ function buildPage(array) {
         };
 
         pages.push(page1, page2, page3, page4, page5);
-        console.log(pages);
+
 
         pages[0].forEach(item => {
             let movieCard = document.createElement("div");
@@ -459,10 +446,9 @@ function buildPage(array) {
 
 
             let span = document.createElement("span");
-            let split = item.release_date.split("");
+            let split = item.release_date.split("-");
             let reverse = split.reverse();
-            let join = reverse.join("");
-            let final = join.replace("-", "/");
+            let final = reverse.join("/");
 
 
             let summary = document.createElement("div");
@@ -572,18 +558,7 @@ function changePage(page, int) {
             wrapper.append(movieCard);
 
     })
-    console.log(`welcome to page ${int}`);
 }
 
 
-// deletar depois 
-fetch("https://api.themoviedb.org/3/discover/movie?api_key=ad3fa5abde2b19507e9081fa56da993b&language=pt-BR&sort_by=popularity.desc&include_adult=false&include_video=true")
-    .then(data => data.json())
-    .then(dataJson => {
-        let results =dataJson.results;
-        console.log(dataJson);
-        
-        
-
-    });
 
